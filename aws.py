@@ -3,7 +3,7 @@ import os
 
 
 def convert_file_path_s3(file_path):
-    file_path.replace(os.sep, '/')
+    file_path = file_path.replace(os.sep, '/')
     return file_path
 
 
