@@ -3,6 +3,8 @@ import os
 import re
 import faker
 import pandas as pd
+import itertools
+import time
 
 '''Stopwatch class
 Creates a stopwatch object. Has split and total functionality.
@@ -128,3 +130,34 @@ def read_n_lines(file, n=10):
     with open("datafile") as file:
         head = [next(file) for x in range(10)]
     print(head)
+
+
+def delimit(delimiter, data, *args):
+    args = [y for x in args for y in x]
+    data = list(itertools.chain(data, args))
+    data = [str(i) for i in data]
+    return delimiter.join(data)
+
+
+def output_data(data, output_name, file_type='.txt', destination=None, header=None):
+    if destination is None:
+        destination = os.getcwd()
+    output_file = os.path.join(destination, output_name + file_type)
+    if header is not None:
+        data.insert(0, header)
+    if file_type != '.txt':
+        print('Non-text files to come. Switching to default .txt')
+    with open(output_file, 'w+') as text_file:
+        for row in data:
+            text_file.write(''.join(row, '\n'))
+    print(''.join("Output saved as '", output_name, file_type, "'"))
+    print(''.join("In the following directory:"))
+    print(''.join(destination, '\n'))
+
+
+def convert_time_to_date(input_time):
+    return time.strftime('%m/%d/%Y', time.gmtime(input_time))
+
+
+def convert_time_to_time(input_time):
+    return time.strftime('%H:%M:%S', time.localtime(input_time))
