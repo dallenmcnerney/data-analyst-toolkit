@@ -161,3 +161,13 @@ def convert_time_to_date(input_time):
 
 def convert_time_to_time(input_time):
     return time.strftime('%H:%M:%S', time.localtime(input_time))
+
+
+def row_string_to_list(rows):
+    if '\r\n' in rows:
+        split_list = rows.split('\r\n')
+    elif '\r' in rows and '\n' not in rows:
+        split_list = rows.split('\r')
+    elif '\n' in rows and '\r' not in rows:
+        columns_list = rows.split('\n')
+    return split_list
