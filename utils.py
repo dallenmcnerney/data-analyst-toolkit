@@ -5,6 +5,7 @@ import faker
 import pandas as pd
 import itertools
 import time
+import shutil
 
 '''Stopwatch class
 Creates a stopwatch object. Has split and total functionality.
@@ -169,5 +170,19 @@ def row_string_to_list(rows):
     elif '\r' in rows and '\n' not in rows:
         split_list = rows.split('\r')
     elif '\n' in rows and '\r' not in rows:
-        columns_list = rows.split('\n')
-    return split_list
+        split_list = rows.split('\n')
+    try:
+        if split_list[-1] == '':
+            split_list.pop(-1)
+        return split_list
+    except (NameError, UnboundLocalError):
+        print('No valid row delimiter')
+        return None
+
+# TODO: Add option to maintain subfolders
+
+
+def move_files(files_list, output_folder, maintain_subfolders=False):
+    if not maintain_subfolders:
+        for file in files_list:
+            shutil.copy2(file, output_folder)
